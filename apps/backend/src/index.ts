@@ -1,16 +1,23 @@
-import express from "express";
-import cors from "cors";
+import express from 'express';
+import dotenv from 'dotenv';
+import authRoutes from './routes/auth.routes';
+import prisma, { connectDB } from './config/database';
 
-const app = express()
+dotenv.config();
+connectDB();
 
-app.use(cors())
-app.use(express.json())
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.get("/health", (req, res) => {
-  res.json({ status: "ok" })
-})
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const PORT = 4000
+app.use('/api/auth', authRoutes);
+
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', message: 'Server is running' });
+});
+
 app.listen(PORT, () => {
-  console.log(`Backend running on http://localhost:${PORT}`)
-})
+  console.log(`Server is running on port ${PORT}`);
+});

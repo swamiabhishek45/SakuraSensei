@@ -1,7 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
-import prisma, { connectDB } from './config/database';
+import lessonRoutes from './routes/lesson.routes';
+
+import { connectDB } from './config/database';
 
 dotenv.config();
 connectDB();
@@ -13,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/auth', authRoutes);
+app.use('/api/lessons', lessonRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });

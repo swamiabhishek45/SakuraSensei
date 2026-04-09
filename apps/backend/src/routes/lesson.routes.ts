@@ -12,10 +12,12 @@ import { authenticate } from "../middleware/auth.middleware";
 
 const router = Router();
 
-router.get("/", authenticate, listLessons);
-router.get("/recommended", authenticate, recommendedLesson);
-router.get("/:id", authenticate, getLesson);
-router.post("/:id/start", authenticate, startLesson);
-router.post("/:id/complete", authenticate, completeLesson);
+router.use(authenticate);
+
+router.get("/", listLessons);
+router.get("/:id", getLesson);
+router.post("/:id/start", startLesson);
+router.post("/:id/complete", completeLesson);
+router.get("/recommended", recommendedLesson);
 
 export default router;
